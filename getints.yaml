@@ -1,0 +1,33 @@
+---
+- name: Get system ethernet interfaces
+  hosts:
+    - all
+  roles:
+    - Juniper.junos
+  connection: local
+  gather_facts: no
+
+  vars_prompt:
+    - name: username
+      prompt: Junos username
+      private: no
+
+    - name: password
+      prompt: Junos password
+      private: yes
+
+  tasks:
+    - name: get system interfaces using galaxy module
+      juniper_junos_command:
+        commands:
+          - show interfaces *e-* terse
+        provider:
+          host: "{{ ansible_host }}"
+          port: 22
+          user: "{{ username }}"
+          passwd: "{{ password }}"
+      register: ints
+
+    - name: display interfaces
+      debug:
+        var: ints.stdout_lines
