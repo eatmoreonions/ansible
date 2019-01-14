@@ -17,7 +17,7 @@
       private: yes
 
   tasks:
-    - name: get system interfaces using galaxy module
+    - name: get system ethernet interfaces using galaxy module
       juniper_junos_command:
         commands:
           - show interfaces *e-* terse
